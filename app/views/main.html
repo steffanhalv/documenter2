@@ -10,7 +10,7 @@
             </ul>
         </div>
         <div class="col-xs-10">
-            <form method="post">
+            <form method="post" ng-repeat="nav in navs">
                 <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel"></textarea>
             </form>
         </div>
