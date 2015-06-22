@@ -8,7 +8,7 @@
  * Controller of the documenter2App
  */
 angular.module('documenter2App')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, $timeout) {
         $scope.tinymceOptions = {
             setup: function (ed) {
                 ed.on("change", function () {
@@ -21,9 +21,48 @@ angular.module('documenter2App')
             theme : 'modern'
         };
 
-        $scope.navs = [
-            {title: 'test1'},
-            {title: 'test2'},
-            {title: 'test3'}
-        ]
+        $scope.pages = [
+            {
+              title: 'Page',
+              sections: [{
+                title: 'Section',
+                id: 'section_0'
+              }]
+            }
+        ];
+
+        $scope.currentPage = $scope.pages[0];
+        $scope.switchPage = function(page) {
+          $scope.currentPage = page;
+        };
+
+        $scope.addPage = function() {
+          $scope.pages.push(
+            {
+              title: 'Page',
+              sections: [{
+                title: 'Section',
+                id: 'section_0'
+              }]
+            }
+          );
+        };
+
+        $scope.addSection = function(page) {
+          page.sections.push({
+            title: 'Section',
+            id: 'section_'+page.sections.length
+          });
+        };
+
+        $scope.scrollToDiv = function(page, div) {
+          $scope.currentPage = page;
+          $timeout(function() {
+            $('html,body').animate({
+              scrollTop: $(div).offset().top
+            });
+          }, 100);
+
+        };
+
   });

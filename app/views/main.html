@@ -1,18 +1,26 @@
-
-
-
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-xs-2">
-            <ul>
-                <li ng-repeat="nav in navs">{{nav.title}}</li>
+        <div class="col-xs-2" style="position: fixed;background: black; color: white;">
+            <ul style="">
+                <li ng-repeat="page in pages">
+                  <span ng-click="switchPage(page);">{{page.title}}</span>
+                  <ul>
+                    <li ng-repeat="section in page.sections">
+                        <span ng-click="scrollToDiv(page, '#'+section.id)">{{section.title}}</span>
+                    </li>
+                    <li ng-click="addSection(page)">Add section</li>
+                  </ul>
+                </li>
+                <li ng-click="addPage()">Add page</li>
             </ul>
         </div>
-        <div class="col-xs-10">
-            <form method="post" ng-repeat="nav in navs">
+        <div class="col-xs-10" style="float: right;">
+          <div ng-repeat="section in currentPage.sections" id="{{section.id}}">
+            <form method="post">
                 <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel"></textarea>
             </form>
+          </div>
         </div>
     </div>
 
