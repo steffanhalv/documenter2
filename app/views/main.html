@@ -1,27 +1,34 @@
 <div class="container-fluid">
 
-    <div class="row">
-        <div class="col-xs-2" style="position: fixed;background: black; color: white;">
-            <ul style="">
-                <li ng-repeat="page in pages">
-                  <span ng-click="switchPage(page);">{{page.title}}</span>
-                  <ul>
-                    <li ng-repeat="section in page.sections">
-                        <span ng-click="scrollToDiv(page, '#'+section.id)">{{section.title}}</span>
-                    </li>
-                    <li ng-click="addSection(page)">Add section</li>
-                  </ul>
-                </li>
-                <li ng-click="addPage()">Add page</li>
-            </ul>
-        </div>
-        <div class="col-xs-10" style="float: right;">
-          <div ng-repeat="section in currentPage.sections" id="{{section.id}}">
-            <form method="post">
-                <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel"></textarea>
-            </form>
-          </div>
-        </div>
+  <div class="row">
+    <div class="topbar col-md-12">
+      <button style="float: right;" ng-click="export();">Export</button>
     </div>
+  </div>
+
+  <div class="row">
+      <div class="col-xs-2" style="position: fixed;background: black; color: white;">
+        <span class="glyphicon glyphicon-heart"></span>
+          <ul style="">
+              <li ng-repeat="page in pages" ng-click="switchPage(page);">
+                <span>{{page.title}}</span>
+                <ul>
+                  <li ng-repeat="section in page.sections" ng-click="scrollToDiv(page, '#'+section.id)">
+                      <span>{{section.title}}</span>
+                  </li>
+                  <li ng-click="addSection(page)">Add section</li>
+                </ul>
+              </li>
+              <li ng-click="addPage()">Add page</li>
+          </ul>
+      </div>
+      <div class="col-xs-10" style="float: right;">
+        <input class="page-title" type="text" placeholder="Page title" ng-model="currentPage.title">
+        <div class="section" ng-repeat="section in currentPage.sections" id="{{section.id}}" ng-click="switchSection(section);">
+          <input class="section-title" type="text" placeholder="Title"  ng-model="section.title">
+          <div class="paper" ui-tinymce="tinymceOptions" ng-model="section.model" content-editable></div>
+        </div>
+      </div>
+  </div>
 
 </div>

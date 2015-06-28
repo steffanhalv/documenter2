@@ -12,28 +12,46 @@ angular.module('documenter2App')
         $scope.tinymceOptions = {
             setup: function (ed) {
                 ed.on("change", function () {
-                    console.log('hei');
-                })
+
+                  //localStorage['storage'] = angular.toJson($scope.pages);
+
+                });
             },
-            inline: false,
-            plugins : 'advlist autolink link image lists charmap print preview',
+            inline: true,
+            plugins : 'advlist autolink link image lists charmap print preview textcolor code',
+            toolbar: ["undo redo | styleselect fontsizeselect | bold italic underline | link image | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | code"],
             skin: 'lightgray',
             theme : 'modern'
         };
 
-        $scope.pages = [
+        var pages = angular.fromJson(localStorage['storage']);
+
+        if (typeof pages!='undefined') {
+          $scope.pages = pages;
+        } else {
+          $scope.pages = [
             {
               title: 'Page',
               sections: [{
                 title: 'Section',
-                id: 'section_0'
+                id: 'section_0',
+                model: ''
               }]
             }
-        ];
+          ];
+        }
+
+        $scope.$watch('pages', function() {
+          localStorage['storage'] = angular.toJson($scope.pages);
+        }, true);
 
         $scope.currentPage = $scope.pages[0];
+        $scope.currentSection = $scope.currentPage.sections[0];
         $scope.switchPage = function(page) {
           $scope.currentPage = page;
+        };
+        $scope.switchSection = function(section) {
+          $scope.currentSection = section;
         };
 
         $scope.addPage = function() {
@@ -42,7 +60,8 @@ angular.module('documenter2App')
               title: 'Page',
               sections: [{
                 title: 'Section',
-                id: 'section_0'
+                id: 'section_0',
+                model: ''
               }]
             }
           );
@@ -51,7 +70,19 @@ angular.module('documenter2App')
         $scope.addSection = function(page) {
           page.sections.push({
             title: 'Section',
-            id: 'section_'+page.sections.length
+            id: 'section_'+page.sections.length,
+            model: ''
+          });
+        };
+
+        $scope.export = function() {
+          $.ajax({
+            type: 'POST',
+            url: 'http://documenter.com/app/php/export.php',
+            data: angular.toJson($scope.pages),
+            success: function(msg) {
+              console.log(msg);
+            }
           });
         };
 
