@@ -8,8 +8,51 @@ body {
   background-color: #dddddd;
 }
 
+ul.nav {
+  font-weight: bold;
+}
+
+ul.nav ul {
+  font-weight: normal;
+}
+
+ul.nav,
+ul.nav ul{
+  list-style-type: none;
+  padding: 0;
+}
+
+ul.nav li span.title {
+  background-color: rgb(228, 228, 228);
+  color: #444;
+  padding: .5em;
+}
+
+ul.nav ul li span.title {
+  background-color: rgb(181, 181, 181);
+  padding: .5em .5em .5em 1em;
+  border-bottom: .1em solid rgb(208, 208, 208);
+}
+
+ul.nav li span.title,
+ul.nav ul li span.title {
+  display: block;
+}
+
 .topbar {
-  background-color: #333;
+  background-color: #000;
+  position: fixed;
+  height: 2em;
+  z-index: 1;
+}
+
+.navi {
+  position: fixed;
+  background: #000;
+  padding: 0;
+  top: 2em;
+  bottom: 0;
+  overflow: auto;
 }
 
 .page-title,
@@ -29,7 +72,8 @@ body {
 }
 
 .section {
-  margin: 2em 0;
+  padding: 2.2em 0;
+  border-bottom: .2em solid rgb(191, 191, 191);
 }
 
 .paper {

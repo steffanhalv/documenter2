@@ -7,19 +7,28 @@
   </div>
 
   <div class="row">
-      <div class="col-xs-2" style="position: fixed;background: black; color: white;">
-        <span class="glyphicon glyphicon-heart"></span>
-          <ul style="">
+      <div class="col-xs-2 navi">
+          <ul class="nav">
               <li ng-repeat="page in pages" ng-click="switchPage(page);">
-                <span>{{page.title}}</span>
+                <span class="title">{{page.title}}</span>
                 <ul>
                   <li ng-repeat="section in page.sections" ng-click="scrollToDiv(page, '#'+section.id)">
-                      <span>{{section.title}}</span>
+                      <span class="title">{{section.title}}</span>
                   </li>
-                  <li ng-click="addSection(page)">Add section</li>
+                  <li ng-click="addSection(page)">
+                      <span class="title">
+                          <span class="glyphicon glyphicon-plus"></span>
+                          Add section
+                      </span>
+                  </li>
                 </ul>
               </li>
-              <li ng-click="addPage()">Add page</li>
+              <li ng-click="addPage()">
+                  <span class="title">
+                      <span class="glyphicon glyphicon-plus"></span>
+                      Add page
+                  </span>
+              </li>
           </ul>
       </div>
       <div class="col-xs-10" style="float: right;">
