@@ -9,7 +9,7 @@
   <div class="row">
       <div class="col-xs-2 navi">
           <ul class="nav">
-              <li ng-repeat="page in pages" ng-click="switchPage(page);">
+              <li ng-repeat="page in pages" ng-click="switchPage(page, $index);">
                 <span class="title">{{page.title}}</span>
                 <ul>
                   <li ng-repeat="section in page.sections" ng-click="scrollToDiv(page, '#'+section.id)">
@@ -32,9 +32,11 @@
           </ul>
       </div>
       <div class="col-xs-10" style="float: right;">
+          <button style="float: right; margin-top: 2em;" ng-click="removePage(currentPageIndex)">Remove page</button>
         <input class="page-title" type="text" placeholder="Page title" ng-model="currentPage.title">
         <div class="section" ng-repeat="section in currentPage.sections" id="{{section.id}}" ng-click="switchSection(section);">
-          <input class="section-title" type="text" placeholder="Title"  ng-model="section.title">
+            <button style="float: right;" ng-click="removeSection(currentPage, $index)">Remove section</button>
+            <input class="section-title" type="text" placeholder="Title"  ng-model="section.title">
           <div class="paper" ui-tinymce="tinymceOptions" ng-model="section.model" content-editable></div>
         </div>
       </div>

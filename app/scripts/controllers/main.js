@@ -45,10 +45,12 @@ angular.module('documenter2App')
           localStorage['storage'] = angular.toJson($scope.pages);
         }, true);
 
+        $scope.currentPageIndex = 0;
         $scope.currentPage = $scope.pages[0];
         $scope.currentSection = $scope.currentPage.sections[0];
-        $scope.switchPage = function(page) {
-          $scope.currentPage = page;
+        $scope.switchPage = function(page, index) {
+            $scope.currentPage = page;
+            $scope.currentPageIndex = index;
         };
         $scope.switchSection = function(section) {
           $scope.currentSection = section;
@@ -73,6 +75,14 @@ angular.module('documenter2App')
             id: 'section_'+page.sections.length,
             model: ''
           });
+        };
+
+        $scope.removeSection = function(currentPage, index) {
+            currentPage.sections.splice(index, 1);
+        };
+
+        $scope.removePage = function(index) {
+            $scope.pages.splice(index, 1);
         };
 
         $scope.export = function() {
