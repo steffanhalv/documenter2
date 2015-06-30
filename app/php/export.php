@@ -1,46 +1,98 @@
 <?php
 
-error_reporting(0);
+//error_reporting(0);
 
-$json_output = json_decode(file_get_contents("php://input"), true);
-
-$newContent = '';
+$json = json_decode(file_get_contents("php://input"), true);
 
 $header = fopen("header.html", "r");
 // Output one line until end-of-file
+$headers = '';
 while(!feof($header)) {
-    $newContent = $newContent.fgets($header);
+    $headers = $headers.fgets($header);
 }
 fclose($header);
 
-foreach ($json_output as $json){
-
-    foreach ($json['sections'] as $section){
-
-        $newContent = $newContent.$section['model'];
-
-    }
-
-}
-
 $footer = fopen("footer.html", "r");
 // Output one line until end-of-file
+$footers = '';
 while(!feof($footer)) {
-    $newContent = $newContent.fgets($footer);
+    $footers = $footers.fgets($footer);
 }
 fclose($footer);
 
-$myfile = fopen("newfile.html", "w");
-fwrite($myfile, $newContent);
-fclose($myfile);
+$files = array();
 
-$files = array(
-    'newfile.html'
-);
+$cnt = 0;
+foreach ($json['pages'] as $page){
 
+    if ($cnt==0) {
+        $filename = "index.html";
+    } else {
+        $filename = $page['title'].".html";
+    }
+    $cnt++;
+    
+    $myfile = fopen($filename, "w");
+
+    $newContent = $headers;
+
+    $cntt = 0;
+    $newContent = $newContent . "<ul class='navigation'>";
+    foreach ($json['pages'] as $page_) {
+
+        if ($cntt==0) {
+            $filename_ = "index.html";
+        } else {
+            $filename_ = $page_['title'].".html";
+        }
+        $cntt++;
+
+        $newContent = $newContent . "<li><a href='" . $filename_ . "'><span>";
+        $newContent = $newContent . $page_['title'];
+        $newContent = $newContent . "</span></a><ul>";
+        foreach ($page_['sections'] as $section) {
+
+            $newContent = $newContent . "<li><a href='#" . $section['title'] . "'>";
+            $newContent = $newContent . $section['title'];
+            $newContent = $newContent . "</a></li>";
+
+        }
+        $newContent = $newContent . "</ul></li>";
+    }
+    $newContent = $newContent . "</ul>";
+
+    $newContent = $newContent . "<div class='content'>";
+    foreach ($page['sections'] as $section) {
+
+        $newContent = $newContent . "<div id='".$section['title']."'>";
+
+        $newContent = $newContent . "<h2>";
+        $newContent = $newContent . $section['title'];
+        $newContent = $newContent . "</h2>";
+
+        $newContent = $newContent . $section['model'];
+
+        $newContent = $newContent . "</div>";
+
+
+    }
+    $newContent = $newContent . "</div>";
+
+    $newContent = $newContent.$footers;
+
+    fwrite($myfile, $newContent);
+    fclose($myfile);
+    array_push($files, $filename);
+
+};
+
+array_push($files, "style.css");
 
 $zip = new ZipArchive();
-$zip_name = "zipfile.zip";
+$zip_name = $json['user']['permissionId'].".zip";;
+if (file_exists ( $zip_name )) {
+    unlink($zip_name);
+}
 if($zip->open($zip_name, ZIPARCHIVE::CREATE)!==TRUE){
     $error .= "* Sorry ZIP creation failed at this time";
 }
@@ -48,9 +100,14 @@ if($zip->open($zip_name, ZIPARCHIVE::CREATE)!==TRUE){
 foreach($files as $file){
     $zip->addFile($file);
 }
-
 $zip->close();
 
-echo "zipfile.zip";
+foreach($files as $file){
+    if (file_exists ( $file )) {
+        unlink($file);
+    }
+}
+
+echo $zip_name;
 
 ?>

@@ -8,7 +8,7 @@
  * Controller of the documenter2App
  */
 angular.module('documenter2App')
-  .controller('MainCtrl', function ($scope, $timeout) {
+  .controller('MainCtrl', function ($scope, $timeout, gapi) {
         $scope.tinymceOptions = {
             setup: function (ed) {
                 ed.on("change", function () {
@@ -23,6 +23,19 @@ angular.module('documenter2App')
             skin: 'lightgray',
             theme : 'modern'
         };
+
+        $scope.user = {};
+        gapi.authorize({
+          done: function(resp) {
+            console.log(resp);
+            gapi.getUser({
+              done: function(resp) {
+                console.log(resp);
+                $scope.user = resp;
+              }
+            });
+          }
+        });
 
         var pages = angular.fromJson(localStorage['storage']);
 
@@ -89,9 +102,13 @@ angular.module('documenter2App')
           $.ajax({
             type: 'POST',
             url: 'http://documenter.com/app/php/export.php',
-            data: angular.toJson($scope.pages),
-            success: function(msg) {
-              console.log(msg);
+            data: angular.toJson({
+              pages: $scope.pages,
+              user: $scope.user
+            }),
+            success: function(filename) {
+              console.log(filename);
+              setTimeout(window.location = 'http://documenter.com/app/php/'+filename, 1000);
             }
           });
         };
