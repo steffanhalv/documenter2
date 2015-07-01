@@ -5,7 +5,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 body {
   padding: 0;
-  background-color: #dddddd;
+  background-color: #fff;
 }
 
 ul.nav {
@@ -23,15 +23,24 @@ ul.nav ul{
 }
 
 ul.nav li span.title {
-  background-color: rgb(228, 228, 228);
-  color: #444;
-  padding: .5em;
+  background-color: #EFEFEF;
+  color: #5B5B5B;
+  padding: .8em .5em;
+}
+
+ul.nav li span.title:hover {
+  background-color: #e5e5e5;
 }
 
 ul.nav ul li span.title {
-  background-color: rgb(181, 181, 181);
-  padding: .5em .5em .5em 1em;
-  border-bottom: .1em solid rgb(208, 208, 208);
+  background-color: #FFFFFF;
+  font-size: .9em;
+  padding: .8em 1em;
+  border-bottom: 0.1em solid #F6F6F6;
+}
+
+ul.nav ul li span.title:hover {
+  background-color: #f9f9f9;
 }
 
 ul.nav li span.title,
@@ -39,18 +48,39 @@ ul.nav ul li span.title {
   display: block;
 }
 
+ul.nav ul li span.title.plus {
+  background-color: rgb(129, 211, 129);
+  color: #fff;
+}
+
+ul.nav ul li span.title.plus:hover {
+  background-color: rgb(145, 232, 145);
+}
+
+ul.nav li span.title.plus {
+  background-color: #337ab7;
+  color: #fff;
+}
+
+ul.nav li span.title.plus:hover {
+  background-color: #286090;
+}
+
 .topbar {
-  background-color: #000;
+  background-color: #fff;
   position: fixed;
-  height: 2em;
+  width: 100%;
+  height: 4em;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
   z-index: 1;
 }
 
 .navi {
   position: fixed;
-  background: #000;
+  background: #fff;
+  border-right: .1em solid rgb(215, 215, 215);
   padding: 0;
-  top: 2em;
+  top: 4em;
   bottom: 0;
   overflow: auto;
 }
@@ -69,12 +99,14 @@ ul.nav ul li span.title {
 .section-title {
   font-size: 1.2em;
   padding: .2em .7em;
+  margin-top: .5em;
 }
 
 .section {
-  padding: 2.2em .5em;
-  border-bottom: .2em solid rgb(191, 191, 191);
-  background-color: rgb(229, 229, 229);
+  padding: 1.4em .5em 1em;
+  margin: .4em 0;
+  background-color: #F4F4F4;
+  border-radius: 4px;
 }
 
 .paper {

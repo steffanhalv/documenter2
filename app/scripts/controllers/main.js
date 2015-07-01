@@ -19,7 +19,8 @@ angular.module('documenter2App')
             },
             inline: true,
             plugins : 'advlist autolink link image lists charmap print preview textcolor code',
-            toolbar: ["undo redo | styleselect fontsizeselect | bold italic underline | link image | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | code"],
+            menubar : false,
+            toolbar: ["undo redo | styleselect fontsizeselect | bullist ", " bold italic underline | forecolor backcolor | link image | numlist"],
             skin: 'lightgray',
             theme : 'modern'
         };
