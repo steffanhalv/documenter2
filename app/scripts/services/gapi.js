@@ -13,7 +13,8 @@ angular.module('documenter2App')
     var factory = {};
     var CLIENT_ID = '46862889673-ctj8t599btm46r3criotpd5oibova9pl.apps.googleusercontent.com';
     var SCOPES = [
-        'https://www.googleapis.com/auth/drive'
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.appfolder'
     ];
 
     factory.authorize = function(auth) {
@@ -49,6 +50,8 @@ angular.module('documenter2App')
     };
 
     factory.listFolder = function(options) {
+
+      //appfolder
 
       if (typeof options.id == "undefined") {
         options.id = 'root';
@@ -94,13 +97,13 @@ angular.module('documenter2App')
       request.execute(function(resp) {
         options.done(resp);
       });
-    }
+    };
 
-    factory.downloadFile = function(file, callback) {
-      if (file.downloadUrl) {
+    factory.downloadFile = function(url, callback) {
+      if (url) {
         var accessToken = gapi.auth.getToken().access_token;
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', file.downloadUrl);
+        xhr.open('GET', url);
         xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
         xhr.onload = function() {
           callback(xhr.responseText);
@@ -112,7 +115,75 @@ angular.module('documenter2App')
       } else {
         callback(null);
       }
-    }
+    };
+
+    factory.insertFile = function(filename, folder, content, callback) {
+        const boundary = '-------314159265358979323846';
+        const delimiter = "\r\n--" + boundary + "\r\n";
+        const close_delim = "\r\n--" + boundary + "--";
+
+        var contentType = 'application/octet-stream';
+        var metadata = {
+            'title': filename,
+            'mimeType': contentType,
+            'parents': [{'id': folder}] //appfolder
+        };
+
+        var multipartRequestBody =
+            delimiter +
+            'Content-Type: application/json\r\n\r\n' +
+            JSON.stringify(metadata) +
+            delimiter +
+            'Content-Type: ' + contentType + '\r\n' + '\r\n' +
+            content +
+            close_delim;
+
+        var request = gapi.client.request({
+            'path': '/upload/drive/v2/files',
+            'method': 'POST',
+            'params': {'uploadType': 'multipart'},
+            'headers': {
+                'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+            },
+            'body': multipartRequestBody});
+        if (!callback) {
+            callback = function(file) {
+                console.log(file)
+            };
+        }
+        request.execute(callback);
+    };
+
+    factory.updateFile = function(fileId, fileMetadata, content, callback) {
+        const boundary = '-------314159265358979323846';
+        const delimiter = "\r\n--" + boundary + "\r\n";
+        const close_delim = "\r\n--" + boundary + "--";
+
+        var contentType = 'application/octet-stream';
+        var multipartRequestBody =
+            delimiter +
+            'Content-Type: application/json\r\n\r\n' +
+            JSON.stringify(fileMetadata) +
+            delimiter +
+            'Content-Type: ' + contentType + '\r\n' + '\r\n' +
+            content +
+            close_delim;
+
+        var request = gapi.client.request({
+            'path': '/upload/drive/v2/files/' + fileId,
+            'method': 'PUT',
+            'params': {'uploadType': 'multipart', 'alt': 'json'},
+            'headers': {
+                'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+            },
+            'body': multipartRequestBody});
+        if (!callback) {
+            callback = function(file) {
+                console.log(file)
+            };
+        }
+        request.execute(callback);
+    };
 
     return factory;
 

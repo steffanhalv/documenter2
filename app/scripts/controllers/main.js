@@ -25,6 +25,12 @@ angular.module('documenter2App')
             theme : 'modern'
         };
 
+        $scope.saveToDrive = function() {
+            gapi.insertFile('config.json', 'appfolder', angular.toJson($scope.pages), function(resp) {
+                console.log(resp);
+            });
+        };
+
         $scope.user = {};
         gapi.authorize({
           done: function(resp) {
@@ -34,6 +40,10 @@ angular.module('documenter2App')
                 console.log(resp);
                 $scope.user = resp;
               }
+            });
+            gapi.downloadFile('https://doc-0o-bg-docs.googleusercontent.com/docs/securesc/7322jpkgmnqb68ih8764qrrag7rm6346/8sdlq6t379uk24o40eipsut5rre1vsml/1435867200000/03090252842654316510/03090252842654316510/1l64wUv8C9gypNkbr3HcSIVr2PjkONjnMPpQ-_u45rRM?e=download&gd=true',
+            function(resp){
+              console.log(resp);
             });
           }
         });
