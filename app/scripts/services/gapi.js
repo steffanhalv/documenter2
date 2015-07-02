@@ -185,6 +185,17 @@ angular.module('documenter2App')
         request.execute(callback);
     };
 
+        factory.share = function(fileid) {
+            var appid = '46862889673';
+            var init = function() {
+                var s = new gapi.drive.share.ShareClient(appid);
+                s.setItemIds([fileid]);
+                s.showSettingsDialog();
+            }
+            gapi.load('drive-share', init);
+
+        }
+
     return factory;
 
   }]);

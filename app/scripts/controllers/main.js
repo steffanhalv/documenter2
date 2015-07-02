@@ -31,6 +31,10 @@ angular.module('documenter2App')
             });
         };
 
+        $scope.share = function() {
+            gapi.share('1QvAK3Its-LB8G3gJgFFZDbkWPhUz-JPG3avcSRJ5fKI');
+        };
+
         $scope.user = {};
         gapi.authorize({
           done: function(resp) {
