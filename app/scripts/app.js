@@ -24,10 +24,10 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'EditCtrl'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
+      .when('/dashboard', {
+        templateUrl: 'views/dashboard.html',
         controller: 'AboutCtrl'
       })
       .otherwise({

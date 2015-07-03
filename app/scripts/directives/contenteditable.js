@@ -20,7 +20,8 @@ angular.module('documenter2App')
           return element.html($.trim(ngModel.$modelValue));
         };
         $timeout(function() {
-          element.bind('blur click DOMNodeInserted DOMNodeRemoved DOMSubtreeModified', function() {
+          element.off();
+          element.on('blur click DOMNodeInserted DOMNodeRemoved DOMSubtreeModified', function() {
             if (ngModel.$viewValue !== $.trim(element.html())) {
               return scope.$apply(read);
             }

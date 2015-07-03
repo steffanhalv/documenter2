@@ -17,7 +17,8 @@ ul.nav ul {
 }
 
 ul.nav,
-ul.nav ul{
+ul.nav ul,
+ul.projects,{
   list-style-type: none;
   padding: 0;
 }
@@ -64,6 +65,26 @@ ul.nav li span.title.plus {
 
 ul.nav li span.title.plus:hover {
   background-color: #286090;
+}
+
+ul.projects,{
+  margin-bottom: 1em;
+  display: inline-block;
+}
+
+ul.projects li,{
+  width: 9em;
+  height: 9em;
+  padding: 3em .5em;
+  margin: 0 1em 1em 0;
+  text-align: center;
+  font-size: .9em;
+  display: block;
+  border: .1em dashed black;
+  border-radius: 4px;
+  background-color: rgb(233, 239, 247);
+  float: left;
+  overflow: hidden;
 }
 
 .topbar {

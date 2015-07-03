@@ -51,8 +51,6 @@ angular.module('documenter2App')
 
     factory.listFolder = function(options) {
 
-      //appfolder
-
       if (typeof options.id == "undefined") {
         options.id = 'root';
       }
@@ -63,6 +61,40 @@ angular.module('documenter2App')
         'params': {
           'maxResults': '200',
           'q': "'"+options.id+"' in parents and trashed = false"
+        }
+      });
+
+      request.execute(function(resp) {
+        options.done(resp);
+      });
+
+    };
+
+    factory.listProjects = function(options) {
+
+      var request = gapi.client.request({
+        'path': '/drive/v2/files',
+        'method': 'GET',
+        'params': {
+          'maxResults': '200', //@todo - remove application/octet-stream
+          'q': "'appfolder' in parents and trashed = false and (mimeType = 'application/documenter.docs' or mimeType = 'application/octet-stream')"
+        }
+      });
+
+      request.execute(function(resp) {
+        options.done(resp);
+      });
+
+    };
+
+    factory.listShared = function(options) {
+
+      var request = gapi.client.request({
+        'path': '/drive/v2/files',
+        'method': 'GET',
+        'params': {
+          'maxResults': '200', //application/documenter.docs
+          'q': "sharedWithMe and mimeType != 'application/vnd.google-apps.folder' and trashed = false"
         }
       });
 
@@ -89,13 +121,13 @@ angular.module('documenter2App')
 
     };
 
-    factory.printFile = function(options) {
+    factory.getFile = function(id, callback) {
       var request = gapi.client.request({
-        'path': '/drive/v2/files/'+options.id,
+        'path': '/drive/v2/files/'+id,
         'method': 'GET'
       });
       request.execute(function(resp) {
-        options.done(resp);
+        callback(resp);
       });
     };
 
@@ -122,7 +154,7 @@ angular.module('documenter2App')
         const delimiter = "\r\n--" + boundary + "\r\n";
         const close_delim = "\r\n--" + boundary + "--";
 
-        var contentType = 'application/octet-stream';
+        var contentType = 'application/documenter.docs';
         var metadata = {
             'title': filename,
             'mimeType': contentType,
@@ -159,7 +191,7 @@ angular.module('documenter2App')
         const delimiter = "\r\n--" + boundary + "\r\n";
         const close_delim = "\r\n--" + boundary + "--";
 
-        var contentType = 'application/octet-stream';
+        var contentType = 'application/documenter.docs';
         var multipartRequestBody =
             delimiter +
             'Content-Type: application/json\r\n\r\n' +
