@@ -22,15 +22,19 @@ angular
   ])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'EditCtrl'
-      })
-      .when('/dashboard', {
+    .when('/', {
         templateUrl: 'views/dashboard.html',
         controller: 'AboutCtrl'
-      })
-      .otherwise({
+    })
+    .when('/edit/:id', {
+        templateUrl: 'views/main.html',
+        controller: 'EditCtrl'
+    })
+    .when('/edit/:id/:name', {
+        templateUrl: 'views/main.html',
+        controller: 'EditCtrl'
+    })
+    .otherwise({
         redirectTo: '/'
-      });
+    });
   });
