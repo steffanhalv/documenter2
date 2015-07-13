@@ -20,7 +20,7 @@ angular.module('documenter2App')
             inline: true,
             plugins : 'advlist autolink link image lists charmap print preview textcolor code',
             menubar : false,
-            toolbar: ["undo redo | styleselect fontsizeselect | bullist ", " bold italic underline | forecolor backcolor | link image | numlist"],
+            toolbar: ["undo redo | styleselect fontsizeselect | bullist | bold italic underline | forecolor backcolor | link image | numlist"],
             skin: 'lightgray',
             theme : 'modern'
         };
@@ -102,13 +102,13 @@ angular.module('documenter2App')
         $scope.export = function() {
             $.ajax({
                 type: 'POST',
-                url: 'http://documenter.com/app/php/export.php',
+                url: 'http://docswriter.com/php/export.php',
                 data: angular.toJson({
                     pages: $scope.pages,
                     user: $scope.user
                 }),
                 success: function(filename) {
-                    setTimeout(window.location = 'http://documenter.com/app/php/'+filename, 1000);
+                    setTimeout(window.location = 'http://docswriter.com/php/'+filename, 1000);
                 }
             });
         };
