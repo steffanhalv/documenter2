@@ -2,7 +2,11 @@
 angular.module('documenter2App')
   .controller('EditCtrl', function ($rootScope, $routeParams, $scope, $location, $timeout, gapi) {
 
-        $scope.project = {};
+        $scope.project = {
+            userPermission: {
+                role: 'reader'
+            }
+        };
         $scope.saving = false;
 
         $scope.tinymceOptions = {
@@ -64,6 +68,7 @@ angular.module('documenter2App')
         };
         if ($routeParams.id=='new') {
 
+            var name = prompt("Please enter new filename", "Filename");
             $scope.pages = [
                 {
                     title: 'Page title',
@@ -75,7 +80,7 @@ angular.module('documenter2App')
                 }
             ];
 
-            gapi.insertFile($routeParams.name, 'appfolder', angular.toJson($scope.pages), function(resp) {
+            gapi.insertFile(name, 'appfolder', angular.toJson($scope.pages), function(resp) {
                 $scope.$apply(function() {
 
                     $scope.getFile(resp.id);
