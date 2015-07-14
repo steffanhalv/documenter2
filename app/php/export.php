@@ -38,7 +38,7 @@ foreach ($json['pages'] as $page){
     $newContent = $headers;
 
     $cntt = 0;
-    $newContent = $newContent . "<ul class='navigation'>";
+    $newContent = $newContent . "<div class='navigation'><ul>";
     foreach ($json['pages'] as $page_) {
 
         if ($cntt==0) {
@@ -60,7 +60,7 @@ foreach ($json['pages'] as $page){
         }
         $newContent = $newContent . "</ul></li>";
     }
-    $newContent = $newContent . "</ul>";
+    $newContent = $newContent . "</ul></div>";
 
     $newContent = $newContent . "<div class='content'>";
     foreach ($page['sections'] as $section) {
