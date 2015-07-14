@@ -53,9 +53,9 @@ foreach ($json['pages'] as $page){
         $newContent = $newContent . "</span></a><ul>";
         foreach ($page_['sections'] as $section) {
 
-            $newContent = $newContent . "<li><a href='" . $filename_ . "#" . $section['title'] . "'>";
+            $newContent = $newContent . "<li><a href='" . $filename_ . "#" . $section['title'] . "'><span>";
             $newContent = $newContent . $section['title'];
-            $newContent = $newContent . "</a></li>";
+            $newContent = $newContent . "</span></a></li>";
 
         }
         $newContent = $newContent . "</ul></li>";
