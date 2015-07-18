@@ -63,7 +63,7 @@ foreach ($json['pages'] as $page){
     }
     $newContent = $newContent . "</ul></div>";
 
-    $newContent = $newContent . "<div class='content'>";
+    $newContent = $newContent . "<div class='content'><h1>".$page_['title']."</h1><br>";
     foreach ($page['sections'] as $section) {
 
         $newContent = $newContent . "<div id='".$section['title']."'>";
