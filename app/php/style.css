@@ -21,6 +21,7 @@ body {
     width: 25%;
     padding: 0;
     overflow: auto;
+    border-right: .1em solid #d7d7d7;
 }
 
 .navigation ul li a {

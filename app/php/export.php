@@ -22,6 +22,7 @@ while(!feof($footer)) {
 fclose($footer);
 
 $files = array();
+$mainfiles = array();
 
 $cnt = 0;
 foreach ($json['pages'] as $page){
@@ -87,7 +88,8 @@ foreach ($json['pages'] as $page){
 
 };
 
-array_push($files, "style.css");
+array_push($mainfiles, "style.css");
+array_push($mainfiles, "main.js");
 
 $zip = new ZipArchive();
 $zip_name = $json['user']['permissionId'].".zip";;
@@ -99,6 +101,9 @@ if($zip->open($zip_name, ZIPARCHIVE::CREATE)!==TRUE){
 }
 
 foreach($files as $file){
+    $zip->addFile($file);
+}
+foreach($mainfiles as $file){
     $zip->addFile($file);
 }
 $zip->close();
