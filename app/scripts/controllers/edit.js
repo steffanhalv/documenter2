@@ -18,9 +18,9 @@ angular.module('documenter2App')
                 });
             },
             inline: true,
-            plugins : 'advlist autolink link image lists charmap print preview textcolor code',
+            plugins : 'advlist jbimages autolink link image lists charmap print preview textcolor code',
             menubar : false,
-            toolbar: ["undo redo | styleselect fontsizeselect | bullist | bold italic underline | forecolor backcolor | link image | numlist"],
+            toolbar: ["undo redo | styleselect fontsizeselect | bullist | bold italic underline | forecolor backcolor | link image jbimages | numlist"],
             skin: 'lightgray',
             theme : 'modern'
         };
