@@ -1,6 +1,7 @@
 <?php
 
-//error_reporting(0);
+session_start();
+
 header('Content-Type: text/html; charset=utf-8');
 
 $json = json_decode(file_get_contents("php://input"), true);
@@ -64,6 +65,7 @@ foreach ($json['pages'] as $page){
     $newContent = $newContent . "</ul></div>";
 
     $newContent = $newContent . "<div class='content'><h1>".$page_['title']."</h1><br>";
+
     foreach ($page['sections'] as $section) {
 
         $newContent = $newContent . "<div id='".$section['title']."'>";
@@ -72,7 +74,7 @@ foreach ($json['pages'] as $page){
         $newContent = $newContent . $section['title'];
         $newContent = $newContent . "</h2>";
 
-        $newContent = $newContent . $section['model'];
+        $newContent = $newContent . str_replace($_SESSION["img_path"], 'images', $section['model']);
 
         $newContent = $newContent . "</div>";
 
@@ -106,6 +108,14 @@ foreach($files as $file){
 foreach($mainfiles as $file){
     $zip->addFile($file);
 }
+
+$zip->addEmptyDir('images');
+foreach(scandir($_SESSION["upload_path"]) as $image) {
+    if ($image!=='.'&&$image!=='..') {
+        $zip->addFile($_SESSION["upload_path"].'/'.$image, 'images/'.$image);
+    }
+}
+
 $zip->close();
 
 foreach($files as $file){

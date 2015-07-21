@@ -27,6 +27,16 @@ angular.module('documenter2App')
 
         $scope.saveToDrive = function() {
             $scope.saving = true;
+
+          $.each($scope.pages, function() {
+
+            $.each(this.sections, function() {
+
+              this.model = this.model.split('<div class="mce-resizehandle">&nbsp;<br></div>').join('');
+
+            });
+
+          });
             gapi.updateFile($scope.project.id, {
                 'title': $scope.project.title,
                 'mimeType': $scope.project.mimeType,
@@ -62,6 +72,25 @@ angular.module('documenter2App')
                             $scope.currentSection = $scope.currentPage.sections[0];
                         });
                     });
+
+                    gapi.getUser({
+                      done: function(resp) {
+                        $scope.user = resp;
+                        $.ajax({
+                          type: 'POST',
+                          //url: 'http://documenter.com/app/php/register.php',
+                          url: 'http://docswriter.com/php/register.php',
+                          data: angular.toJson({
+                            user: resp,
+                            fileId: fileId
+                          }),
+                          success: function(session) {
+                            console.log(session);
+                          }
+                        });
+                      }
+                    });
+
                 });
                 }
             });
