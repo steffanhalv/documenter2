@@ -12,9 +12,7 @@ angular.module('documenter2App')
         $scope.tinymceOptions = {
             setup: function (ed) {
                 ed.on("change", function () {
-
                     //localStorage['storage'] = angular.toJson($scope.pages);
-
                 });
             },
             inline: true,
@@ -27,10 +25,12 @@ angular.module('documenter2App')
 
         $scope.saveToDrive = function() {
             $scope.saving = true;
+            $scope.getImages();
 
             $.each($scope.pages, function() {
               $.each(this.sections, function() {
-                this.model = this.model.split('<div class="mce-resizehandle">&nbsp;<br></div>').join('');
+                //this.model = this.model.replace(/<div class="mce-resizehandle">&#160;<br\/><\/div>/g,'');
+                //console.log(this.model);
               });
             });
 
@@ -60,9 +60,11 @@ angular.module('documenter2App')
             gapi.authorize({
                 done: function(resp) {
                 gapi.getFile(fileId, function(resp) {
+
                     $scope.project = resp;
 
                     gapi.downloadFile(resp.downloadUrl, function(resp) {
+                        resp = resp.replace(/<div class=\\"mce-resizehandle\\">&#160;<br\/><\/div>/g,'');
                         $scope.$apply(function() {
                             $scope.pages = angular.fromJson(resp);
                             $scope.currentPage = $scope.pages[0];
@@ -81,8 +83,7 @@ angular.module('documenter2App')
                             user: resp,
                             fileId: fileId
                           }),
-                          success: function(session) {
-                            console.log(session);
+                          success: function() {
                           }
                         });
                       }
@@ -196,6 +197,41 @@ angular.module('documenter2App')
 
               });
             }
+        };
+
+        $scope.getImages = function() {
+          $.ajax({
+            type: 'GET',
+            url: 'http://docswriter.com/php/listImages.php',
+            dataType: "json",
+            success: function(json) {
+              $scope.$apply(function() {
+                $scope.images = [];
+                $.each(json, function(){
+                  $scope.images.push({
+                    name: this.replace(/^.*[\\\/]/, ''),
+                    url: this
+                  });
+                });
+              });
+            }
+          });
+        };
+        $scope.getImages();
+
+        $scope.deleteImage = function(image) {
+          if (confirm('Are you sure you want to remove image?')) {
+            $.ajax({
+              type: 'POST',
+              url: 'http://docswriter.com/php/deleteImage.php',
+              data: angular.toJson({
+                image: image
+              }),
+              success: function() {
+                $scope.getImages();
+              }
+            });
+          }
         };
 
         /*Autosave

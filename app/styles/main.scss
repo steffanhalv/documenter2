@@ -113,6 +113,17 @@ ul.projects li,{
   border-right: .1em solid rgb(215, 215, 215);
   padding: 0;
   top: 4em;
+  bottom: 15em;
+  overflow: auto;
+}
+
+.images {
+  position: fixed;
+  background: #fff;
+  border-right: .1em solid rgb(215, 215, 215);
+  border-top: .1em solid rgb(215, 215, 215);
+  padding: 0;
+  height: 15em;
   bottom: 0;
   overflow: auto;
 }

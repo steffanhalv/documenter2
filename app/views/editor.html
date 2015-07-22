@@ -52,6 +52,20 @@
               </li>
           </ul>
       </div>
+      <div class="col-xs-3 images">
+        <ul class="nav">
+          <li>
+            <span class="title">Uploaded images</span>
+          </li>
+          <li ng-repeat="image in images">
+            <span class="title">
+              <img src="{{image.url}}" style="width: 3.5em; height: 2.5em; padding-right: .5em;"/>
+              <span style="display: inline-block; width: 12em; overflow: hidden; white-space: nowrap;">{{image.name}}</span>
+              <span class="glyphicon glyphicon-remove" ng-click="deleteImage(image.url)" style="position: absolute; right: 1em; top: 1.5em"></span>
+            </span>
+          </li>
+        </ul>
+      </div>
       <div class="col-xs-9 col-xs-offset-3">
         <button ng-hide="project.userPermission.role=='reader'" class="btn btn-danger" style="float: right; margin: 5em 0 .5em;" ng-click="removePage(currentPageIndex)">
             <span class="glyphicon glyphicon-remove"></span>
