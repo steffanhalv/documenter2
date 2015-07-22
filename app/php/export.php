@@ -94,7 +94,7 @@ array_push($mainfiles, "style.css");
 array_push($mainfiles, "main.js");
 
 $zip = new ZipArchive();
-$zip_name = $json['user']['permissionId'].".zip";;
+$zip_name = 'zip/'.$json['user']['permissionId'].".zip";;
 if (file_exists ( $zip_name )) {
     unlink($zip_name);
 }

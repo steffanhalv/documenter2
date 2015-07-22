@@ -182,18 +182,20 @@ angular.module('documenter2App')
         };
 
         $scope.delete = function() {
-            gapi.delete($scope.project.id, function(resp) {
+            if (confirm("Sure you want to delete this document?")) {
+              gapi.delete($scope.project.id, function (resp) {
 
                 gapi.listProjects({
-                    done: function(resp) {
-                        $scope.$apply(function() {
-                            $rootScope.projects = resp.items;
-                            $location.path('/');
-                        });
-                    }
+                  done: function (resp) {
+                    $scope.$apply(function () {
+                      $rootScope.projects = resp.items;
+                      $location.path('/');
+                    });
+                  }
                 });
 
-            });
+              });
+            }
         };
 
         /*Autosave
