@@ -17,23 +17,38 @@ angular.module('documenter2App')
         'https://www.googleapis.com/auth/drive.appfolder'
     ];
 
-    factory.authorize = function(auth) {
+    factory.authorize = function(auth, immediate) {
 
-      $timeout(function() {
-        gapi.auth.authorize({
-          'client_id': CLIENT_ID,
-          'scope': SCOPES,
-          'immediate': true
-        }, handleAuthResult);
-      }, 1500);
+      if (typeof immediate=='undefined') {
+        immediate = true;
+      }
+
+      if (immediate) {
+        $timeout(function() {
+          gapi.auth.init(function() {
+            gapi.auth.authorize({
+              'client_id': CLIENT_ID,
+              'scope': SCOPES,
+              'immediate': immediate
+            }, handleAuthResult);
+          });
+        }, 2000);
+      } else {
+        gapi.auth.init(function() {
+          gapi.auth.authorize({
+            'client_id': CLIENT_ID,
+            'scope': SCOPES,
+            'immediate': immediate
+          }, handleAuthResult);
+        });
+      }
 
       var handleAuthResult = function(authResult) {
+
         if (authResult) {
 
             if (authResult.error_subtype === 'access_denied') {
-                gapi.auth.authorize(
-                    {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': false},
-                    handleAuthResult);
+                auth.error(authResult);
             } else {
                 auth.done(authResult);
             }
@@ -41,9 +56,7 @@ angular.module('documenter2App')
           // Access token has been successfully retrieved, requests can be sent to the API
         } else {
           // No access token could be retrieved, force the authorization flow.
-          gapi.auth.authorize(
-            {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': false},
-            handleAuthResult);
+          auth.error(authResult);
         }
       }
 

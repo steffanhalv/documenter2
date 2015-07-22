@@ -22,19 +22,31 @@ angular
   ])
   .config(function ($routeProvider) {
     $routeProvider
-    .when('/', {
-        templateUrl: 'views/dashboard.html',
-        controller: 'AboutCtrl'
-    })
-    .when('/edit/:id', {
-        templateUrl: 'views/main.html',
-        controller: 'EditCtrl'
-    })
-    .when('/edit/:id/:name', {
-        templateUrl: 'views/main.html',
-        controller: 'EditCtrl'
-    })
-    .otherwise({
-        redirectTo: '/'
-    });
+      .when('/', {
+          templateUrl: 'views/dashboard.html',
+          controller: 'DashboardCtrl'
+      })
+      .when('/load', {
+        templateUrl: 'views/load.html',
+        controller: 'LoadCtrl'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+      .when('/edit/:id', {
+          templateUrl: 'views/editor.html',
+          controller: 'EditCtrl'
+      })
+      .when('/edit/:id/:name', {
+          templateUrl: 'views/editor.html',
+          controller: 'EditCtrl'
+      })
+      .when('/error', {
+        templateUrl: 'views/error.html',
+        controller: 'ErrorCtrl'
+      })
+      .otherwise({
+          redirectTo: '/'
+      });
   });

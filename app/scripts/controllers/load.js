@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name documenter2App.controller:AboutCtrl
+ * @name documenter2App.controller:LoadCtrl
  * @description
- * # AboutCtrl
+ * # LoadCtrl
  * Controller of the documenter2App
  */
 angular.module('documenter2App')
-  .controller('AboutCtrl', function ($scope) {
+  .controller('LoadCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',

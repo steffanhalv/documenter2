@@ -28,15 +28,12 @@ angular.module('documenter2App')
         $scope.saveToDrive = function() {
             $scope.saving = true;
 
-          $.each($scope.pages, function() {
-
-            $.each(this.sections, function() {
-
-              this.model = this.model.split('<div class="mce-resizehandle">&nbsp;<br></div>').join('');
-
+            $.each($scope.pages, function() {
+              $.each(this.sections, function() {
+                this.model = this.model.split('<div class="mce-resizehandle">&nbsp;<br></div>').join('');
+              });
             });
 
-          });
             gapi.updateFile($scope.project.id, {
                 'title': $scope.project.title,
                 'mimeType': $scope.project.mimeType,

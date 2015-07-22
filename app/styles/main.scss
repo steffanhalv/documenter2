@@ -8,6 +8,18 @@ body {
   background-color: #fff;
 }
 
+.remove-project {
+  position: absolute;
+  top: .2em;
+  right: .2em;
+  color: rgb(224, 110, 110);
+}
+
+.center-table {
+  margin: 0 auto !important;
+  float: none !important;
+}
+
 ul.nav {
   font-weight: bold;
 }
@@ -80,9 +92,8 @@ ul.projects li,{
   text-align: center;
   font-size: .9em;
   display: block;
-  border: .1em dashed black;
+  border: .1em dashed rgb(181, 173, 173);
   border-radius: 4px;
-  background-color: rgb(233, 239, 247);
   float: left;
   overflow: hidden;
 }

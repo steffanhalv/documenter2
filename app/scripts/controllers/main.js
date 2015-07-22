@@ -11,13 +11,18 @@ angular.module('documenter2App')
   .controller('MainCtrl', function ($rootScope, $scope, $timeout, $location, gapi) {
 
     $scope.user = {};
+    $rootScope.redirectPath = $location.path();
+    $location.path('/load');
+
     gapi.authorize({
       done: function(resp) {
 
         //AFTER AUTH
         gapi.getUser({
           done: function(resp) {
-            $scope.user = resp;
+            $scope.$apply(function() {
+              $rootScope.user = resp;
+            });
           }
         });
 
@@ -32,11 +37,22 @@ angular.module('documenter2App')
         gapi.listShared({
           done: function(resp) {
             $scope.$apply(function() {
-              $scope.sharedProjects = resp.items;
+              $rootScope.sharedProjects = resp.items;
             });
           }
         });
 
+        if ($rootScope.redirectPath==='/login'||$rootScope.redirectPath==='/load') {
+          $location.path('/dashboard');
+        } else {
+          $location.path($rootScope.redirectPath);
+        }
+
+      },
+      error: function(resp) {
+        $scope.$apply(function() {
+          $location.path('/login');
+        });
       }
     });
 
