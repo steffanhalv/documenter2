@@ -8,6 +8,9 @@ angular.module('documenter2App')
             }
         };
         $scope.saving = false;
+        $scope.config = false;
+
+        $scope.model = {};
 
         $scope.tinymceOptions = {
             setup: function (ed) {
@@ -18,7 +21,7 @@ angular.module('documenter2App')
             inline: true,
             plugins : 'advlist jbimages autolink link image lists charmap print preview textcolor code',
             menubar : false,
-            toolbar: ["undo redo | styleselect fontsizeselect | bullist | bold italic underline | forecolor backcolor | link image jbimages | numlist"],
+            toolbar: ["undo redo | styleselect fontsizeselect | bold italic underline | forecolor backcolor | link image jbimages | numlist bullist"],
             skin: 'lightgray',
             theme : 'modern'
         };
@@ -27,18 +30,11 @@ angular.module('documenter2App')
             $scope.saving = true;
             $scope.getImages();
 
-            $.each($scope.pages, function() {
-              $.each(this.sections, function() {
-                //this.model = this.model.replace(/<div class="mce-resizehandle">&#160;<br\/><\/div>/g,'');
-                //console.log(this.model);
-              });
-            });
-
             gapi.updateFile($scope.project.id, {
                 'title': $scope.project.title,
                 'mimeType': $scope.project.mimeType,
                 'parents': $scope.project.parents
-            }, angular.toJson($scope.pages), function(resp) {
+            }, angular.toJson($scope.model), function(resp) {
 
                 $scope.$apply(function() {
                     $scope.saving = false;
@@ -51,6 +47,10 @@ angular.module('documenter2App')
                             $rootScope.projects = resp.items;
                         });
                     }
+                });
+
+                $('.save').css({
+                  backgroundColor: '#71B54A'
                 });
 
             });
@@ -66,9 +66,22 @@ angular.module('documenter2App')
                     gapi.downloadFile(resp.downloadUrl, function(resp) {
                         resp = resp.replace(/<div class=\\"mce-resizehandle\\">&#160;<br\/><\/div>/g,'');
                         $scope.$apply(function() {
-                            $scope.pages = angular.fromJson(resp);
-                            $scope.currentPage = $scope.pages[0];
+                            $scope.model = angular.fromJson(resp);
+
+                            if (typeof $scope.model.pages==='undefined') {
+                              $scope.model = {
+                                pages: angular.fromJson(resp)
+                              }
+                            }
+                            $scope.currentPage = $scope.model.pages[0];
                             $scope.currentSection = $scope.currentPage.sections[0];
+
+                            $timeout(function(){
+                              $('.save').css({
+                                backgroundColor: '#71B54A'
+                              });
+                            }, 200);
+
                         });
                     });
 
@@ -84,6 +97,7 @@ angular.module('documenter2App')
                             fileId: fileId
                           }),
                           success: function() {
+                            $scope.getImages();
                           }
                         });
                       }
@@ -96,7 +110,7 @@ angular.module('documenter2App')
         if ($routeParams.id=='new') {
 
             var name = prompt("Please enter new filename", "Filename");
-            $scope.pages = [
+            $scope.model.pages = [
                 {
                     title: 'Page title',
                     sections: [{
@@ -107,7 +121,7 @@ angular.module('documenter2App')
                 }
             ];
 
-            gapi.insertFile(name, 'appfolder', angular.toJson($scope.pages), function(resp) {
+            gapi.insertFile(name, 'appfolder', angular.toJson($scope.model), function(resp) {
                 $scope.$apply(function() {
 
                     $scope.getFile(resp.id);
@@ -131,8 +145,9 @@ angular.module('documenter2App')
                 type: 'POST',
                 url: 'http://docswriter.com/php/export.php',
                 data: angular.toJson({
-                    pages: $scope.pages,
-                    user: $scope.user
+                    pages: $scope.model.pages,
+                    user: $scope.user,
+                    model: $scope.model
                 }),
                 success: function(filename) {
                     setTimeout(window.location = 'http://docswriter.com/php/'+filename, 1000);
@@ -145,7 +160,7 @@ angular.module('documenter2App')
         };
 
         $scope.removePage = function(index) {
-            $scope.pages.splice(index, 1);
+            $scope.model.pages.splice(index, 1);
         };
 
         $scope.addSection = function(page) {
@@ -157,7 +172,7 @@ angular.module('documenter2App')
         };
 
         $scope.addPage = function() {
-            $scope.pages.push(
+            $scope.model.pages.push(
                 {
                     title: 'Page',
                     sections: [{
@@ -216,6 +231,13 @@ angular.module('documenter2App')
               });
             }
           });
+          /*$scope.images = [
+            {name: 'name', url: 'url'},
+            {name: 'name', url: 'url'},
+            {name: 'name', url: 'url'},
+            {name: 'name', url: 'url'},
+            {name: 'name', url: 'url'}
+          ];*/
         };
         $scope.getImages();
 
@@ -234,9 +256,10 @@ angular.module('documenter2App')
           }
         };
 
-        /*Autosave
-         $scope.$watch('pages', function() {
-         localStorage['storage'] = angular.toJson($scope.pages);
-         }, true);*/
+         $scope.$watch('model', function() {
+           $('.save').css({
+             backgroundColor: 'red'
+           });
+         }, true);
 
   });

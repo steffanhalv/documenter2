@@ -1,0 +1,89 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="topbar col-md-12">
+      <a href="#/">
+        <button class="btn btn-info" style="float:left; margin-right: .4em; margin-top: .7em;">
+          <span class="glyphicon glyphicon-list"></span>
+          List projects
+        </button>
+      </a>
+      <button ng-show="project.userPermission.role!='reader'&&!saving" class="btn btn-info" style="margin-right: .4em; float:left; margin-top: .7em;" ng-click="saveToDrive();">
+        <span class="glyphicon glyphicon-save"></span>
+        Save project
+      </button>
+      <button ng-show="saving" class="btn btn-danger" style="margin-right: .4em; float:left; margin-top: .7em;">Saving...</button>
+      <button ng-show="false" class="btn btn-warning" style="float:left; margin-right: .4em; margin-top: .7em;" ng-click="share();">
+        <span class="glyphicon glyphicon-share"></span>
+        Share
+      </button>
+      <button ng-hide="project.userPermission.role=='reader'" class="btn btn-primary" style="float: left; margin-right: .4em; margin-top: .7em;" ng-click="export();">
+        Export documentation
+      </button>
+      <input ng-show="project.userPermission.role=='owner'" ng-model="project.title" style="float:left; width: 17em; height: 2.5em; margin-right: .4em; margin-top: .7em; padding: .38em;" type="text" placeholder="Filename">
+      <span ng-show="project.userPermission.role!='owner'" style="float:left; width: 17em; height: 2.5em; margin-right: .4em; margin-top: .7em; padding: .38em;">{{project.title}}</span>
+      <button ng-show="project.userPermission.role=='owner'" class="btn btn-danger" style="float:right; margin-top: .7em;" ng-click="delete();">
+        <span class="glyphicon glyphicon-remove"></span>
+        Delete project
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-3 navi">
+      <ul class="nav">
+        <li ng-repeat="page in pages" ng-click="switchPage(page, $index);">
+          <span class="title">{{page.title}}</span>
+          <ul>
+            <li ng-repeat="section in page.sections" ng-click="scrollToDiv(page, '#'+section.id)">
+              <span class="title">{{section.title}}</span>
+            </li>
+            <li ng-hide="project.userPermission.role=='reader'" ng-click="addSection(page)">
+                      <span class="title plus">
+                          <span class="glyphicon glyphicon-plus"></span>
+                          Add section
+                      </span>
+            </li>
+          </ul>
+        </li>
+        <li ng-hide="project.userPermission.role=='reader'" ng-click="addPage()">
+                  <span class="title plus">
+                      <span class="glyphicon glyphicon-plus"></span>
+                      Add page
+                  </span>
+        </li>
+      </ul>
+    </div>
+    <div class="col-xs-3 images">
+      <ul class="nav">
+        <li>
+          <span class="title">Uploaded images</span>
+        </li>
+        <li ng-repeat="image in images">
+            <span class="title">
+              <img src="{{image.url}}" style="width: 3.5em; height: 2.5em; padding-right: .5em;"/>
+              <span style="display: inline-block; width: 12em; overflow: hidden; white-space: nowrap;">{{image.name}}</span>
+              <span class="glyphicon glyphicon-remove" ng-click="deleteImage(image.url)" style="position: absolute; right: 1em; top: 1.5em"></span>
+            </span>
+        </li>
+      </ul>
+    </div>
+    <div class="col-xs-9 col-xs-offset-3">
+      <button ng-hide="project.userPermission.role=='reader'" class="btn btn-danger" style="float: right; margin: 5em 0 .5em;" ng-click="removePage(currentPageIndex)">
+        <span class="glyphicon glyphicon-remove"></span>
+        Remove page
+      </button>
+      <br>
+      <input class="page-title" type="text" placeholder="Page title" ng-model="currentPage.title">
+      <div class="section" ng-repeat="section in currentPage.sections" id="{{section.id}}" ng-click="switchSection(section);">
+        <button ng-hide="project.userPermission.role=='reader'" class="btn btn-danger" style="float: right;" ng-click="removeSection(currentPage, $index)">
+          <span class="glyphicon glyphicon-remove"></span>
+          Remove section
+        </button>
+        <input class="section-title" type="text" placeholder="Title"  ng-model="section.title">
+        <div class="paper" ui-tinymce="tinymceOptions" ng-model="section.model" content-editable></div>
+      </div>
+    </div>
+  </div>
+
+</div>

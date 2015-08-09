@@ -14,6 +14,10 @@ angular.module('documenter2App')
     $rootScope.redirectPath = $location.path();
     $location.path('/load');
 
+    $rootScope.goto = function(path) {
+      $location.path(path);
+    };
+
     gapi.authorize({
       done: function(resp) {
 
@@ -60,7 +64,7 @@ angular.module('documenter2App')
       $scope.currentPage = page;
       $timeout(function() {
         $('html,body').animate({
-          scrollTop: $(div).offset().top
+          scrollTop: $(div).offset().top-100
         });
       }, 100);
 

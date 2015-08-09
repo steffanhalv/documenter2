@@ -32,7 +32,8 @@ angular.module('documenter2App')
 
       if (name!==null) {
 
-        $scope.pages = [
+        $scope.model = {};
+        $scope.model.pages = [
           {
             title: 'Page title',
             sections: [{
@@ -43,7 +44,7 @@ angular.module('documenter2App')
           }
         ];
 
-        gapi.insertFile(name, 'appfolder', angular.toJson($scope.pages), function(resp) {
+        gapi.insertFile(name, 'appfolder', angular.toJson($scope.model), function(resp) {
 
           $location.path('/edit/'+resp.id);
           //refresh project list
