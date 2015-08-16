@@ -8,7 +8,7 @@
  * Controller of the documenter2App
  */
 angular.module('documenter2App')
-  .controller('LoginCtrl', function ($scope, $rootScope, gapi) {
+  .controller('LoginCtrl', function ($scope, $rootScope, $location, gapi) {
 
     $scope.login = function() {
       gapi.authorize({
@@ -39,7 +39,7 @@ angular.module('documenter2App')
             }
           });
 
-          if ($rootScope.redirectPath==='/login'||$rootScope.redirectPath==='/load') {
+          if ($rootScope.redirectPath==='/login'||$rootScope.redirectPath==='/load'||typeof $rootScope.redirectPath==='undefined') {
             $location.path('/dashboard');
           } else {
             $location.path($rootScope.redirectPath);

@@ -14,6 +14,7 @@ angular.module('documenter2App')
     var CLIENT_ID = '46862889673-ctj8t599btm46r3criotpd5oibova9pl.apps.googleusercontent.com';
     var SCOPES = [
         'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.install',
         'https://www.googleapis.com/auth/drive.appfolder'
     ];
 
@@ -39,7 +40,9 @@ angular.module('documenter2App')
             'client_id': CLIENT_ID,
             'scope': SCOPES,
             'immediate': immediate
-          }, handleAuthResult);
+          }, function(resp) {
+              handleAuthResult(resp);
+          });
         });
       }
 
@@ -236,9 +239,8 @@ angular.module('documenter2App')
             var s = new gapi.drive.share.ShareClient(appid);
             s.setItemIds([fileid]);
             s.showSettingsDialog();
-        }
+        };
         gapi.load('drive-share', init);
-
     };
 
     factory.delete = function(id, callback) {
