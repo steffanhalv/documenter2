@@ -201,8 +201,9 @@ a {
           position: absolute;
           top: 1em;
           display: inline-block;
-          width: 9em;
+          width: 8.5em;
           overflow: hidden;
+          text-overflow: ellipsis;
           white-space: nowrap;
         }
       }

@@ -80,7 +80,7 @@ angular.module('documenter2App')
                               $('.save').css({
                                 backgroundColor: '#71B54A'
                               });
-                            }, 200);
+                            }, 500);
 
                         });
                     });
@@ -256,10 +256,16 @@ angular.module('documenter2App')
           }
         };
 
-         $scope.$watch('model', function() {
-           $('.save').css({
-             backgroundColor: 'red'
-           });
-         }, true);
+        $scope.$watch('model', function() {
+         $('.save').css({
+           backgroundColor: 'red'
+         });
+        }, true);
+
+        $scope.$watch('project', function() {
+          $('.save').css({
+            backgroundColor: 'red'
+          });
+        }, true);
 
   });
