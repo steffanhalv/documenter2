@@ -56,6 +56,16 @@ body {
 .content {
     position: absolute;
     right: 0;
-    width: 71%;
-    padding: 2%;
+    width: 75%;
+    background-color: #DADADA;
+}
+
+.content > h1 {
+    padding: 0 1em;
+}
+
+.content > div {
+    padding: .5em 2em;
+    background-color: #E6E6E6;
+    border-bottom: .1em solid #C3C3C3;
 }

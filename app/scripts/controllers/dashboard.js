@@ -44,7 +44,7 @@ angular.module('documenter2App')
           }
         ];
 
-        gapi.insertFile(name, 'appfolder', angular.toJson($scope.model), function(resp) {
+        gapi.insertFile(name, 'root', angular.toJson($scope.model), function(resp) {
 
           $location.path('/edit/'+resp.id);
           //refresh project list

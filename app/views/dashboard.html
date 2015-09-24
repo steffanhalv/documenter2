@@ -33,15 +33,20 @@
       </tr>
     </table>
 
-    <!--h2>Shared with me</h2>
-    <ul class="projects">
-      <li ng-repeat="project in sharedProjects" ng-click="scrollToDiv(page, '#'+section.id)">
+    <h2>Shared with me</h2>
+    <table style="width: 100%; font-size: 1.2em;">
+      <tr ng-repeat="project in sharedProjects">
+        <td style="padding: .5em">
           <a ng-href="#edit/{{project.id}}">
-              <span class="glyphicon glyphicon-file" style="font-size: 2.2em;"></span><br>
-              <span class="title">{{project.title}}</span>
+            <span class="glyphicon glyphicon-file"></span>
+            <span>{{project.title}}</span>
           </a>
-      </li>
-    </ul-->
+        </td>
+        <td style="padding: .5em">
+          <span ng-click="delete(project.id)" class="glyphicon glyphicon-trash" style="float: right"></span>
+        </td>
+      </tr>
+    </table>
   </div>
 
 </div>

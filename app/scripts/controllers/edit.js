@@ -121,7 +121,7 @@ angular.module('documenter2App')
                 }
             ];
 
-            gapi.insertFile(name, 'appfolder', angular.toJson($scope.model), function(resp) {
+            gapi.insertFile(name, 'root', angular.toJson($scope.model), function(resp) {
                 $scope.$apply(function() {
 
                     $scope.getFile(resp.id);
@@ -231,13 +231,19 @@ angular.module('documenter2App')
               });
             }
           });
-          /*$scope.images = [
+          /*
+          $scope.images = [
+            {name: 'name', url: 'url'},
+            {name: 'name', url: 'url'},
+            {name: 'name long name long', url: 'url'},
+            {name: 'name', url: 'url'},
             {name: 'name', url: 'url'},
             {name: 'name', url: 'url'},
             {name: 'name', url: 'url'},
             {name: 'name', url: 'url'},
             {name: 'name', url: 'url'}
-          ];*/
+          ];
+          */
         };
         $scope.getImages();
 

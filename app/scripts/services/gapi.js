@@ -15,6 +15,7 @@ angular.module('documenter2App')
     var SCOPES = [
         'https://www.googleapis.com/auth/drive',
         'https://www.googleapis.com/auth/drive.install',
+        'https://www.googleapis.com/auth/drive.file',
         'https://www.googleapis.com/auth/drive.appfolder'
     ];
 
@@ -92,8 +93,8 @@ angular.module('documenter2App')
         'path': '/drive/v2/files',
         'method': 'GET',
         'params': {
-          'maxResults': '200', //@todo - remove application/octet-stream
-          'q': "'appfolder' in parents and trashed = false and (mimeType = 'application/documenter.docs' or mimeType = 'application/octet-stream')"
+          'maxResults': '200',
+          'q': "trashed = false and mimeType = 'application/documenter.docs'"
         }
       });
 
@@ -110,7 +111,7 @@ angular.module('documenter2App')
         'method': 'GET',
         'params': {
           'maxResults': '200', //application/documenter.docs
-          'q': "sharedWithMe and mimeType != 'application/vnd.google-apps.folder' and trashed = false"
+          'q': "sharedWithMe and mimeType = 'application/documenter.docs' and trashed = false"
         }
       });
 

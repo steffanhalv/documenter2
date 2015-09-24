@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(0);
+
 session_start();
 
 header('Content-Type: text/html; charset=utf-8');
@@ -55,7 +57,7 @@ foreach ($json['pages'] as $page){
         $newContent = $newContent . "</span></a><ul>";
         foreach ($page_['sections'] as $section) {
 
-            $newContent = $newContent . "<li><a href='" . $filename_ . "#" . $section['title'] . "'><span>";
+            $newContent = $newContent . "<li><a href='" . $filename_ . "#" . $section['id'] . "'><span>";
             $newContent = $newContent . $section['title'];
             $newContent = $newContent . "</span></a></li>";
 
@@ -64,11 +66,11 @@ foreach ($json['pages'] as $page){
     }
     $newContent = $newContent . "</ul></div>";
 
-    $newContent = $newContent . "<div class='content'><h1>".$page_['title']."</h1><br>";
+    $newContent = $newContent . "<div class='content'><h1>".$page_['title']."</h1>";
 
     foreach ($page['sections'] as $section) {
 
-        $newContent = $newContent . "<div id='".$section['title']."'>";
+        $newContent = $newContent . "<div id='".$section['id']."'>";
 
         $newContent = $newContent . "<h2>";
         $newContent = $newContent . $section['title'];

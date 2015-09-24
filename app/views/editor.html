@@ -39,28 +39,13 @@
         </ul>
       </li>
       <li ng-hide="project.userPermission.role=='reader'" ng-click="addPage()">
-        <span class="title plus">
-            <span class="glyphicon glyphicon-plus plus"></span>
+        <span class="title plus page">
+            <span class="glyphicon glyphicon-plus plus page"></span>
             Add page
         </span>
       </li>
     </ul>
 
-  </div>
-
-  <div class="images" ng-hide="config">
-    <ul>
-      <li>
-        <span class="uploaded-images"><b>Uploaded images</b></span>
-      </li>
-      <li ng-repeat="image in images">
-            <span class="title">
-              <img src="{{image.url}}" style="width: 3.5em; height: 2.5em; padding-right: .5em;"/>
-              <span class="name">{{image.name}}</span>
-              <span class="glyphicon glyphicon-trash" ng-click="deleteImage(image.url)" style="position: absolute; right: 1em; top: 1.2em"></span>
-            </span>
-      </li>
-    </ul>
   </div>
 
   <div class="content" ng-hide="config">
@@ -99,5 +84,21 @@
       <input type="text" placeholder="Email" ng-model="model.email">
     </div>
   </div>
+
+  <div class="images" ng-hide="imageshidden">
+    <ul>
+      <li>
+        <span class="uploaded-images"><b>Uploaded images</b></span>
+      </li>
+      <li ng-repeat="image in images">
+            <span class="title">
+              <img src="{{image.url}}" style="width: 3.5em; height: 2.5em; padding-right: .5em;"/>
+              <span class="name">{{image.name}}</span>
+              <span class="glyphicon glyphicon-trash" ng-click="deleteImage(image.url)" style="position: absolute; right: 3.5em; top: 1.2em"></span>
+            </span>
+      </li>
+    </ul>
+  </div>
+  <div class="images-button" ng-init="imageshidden=true" ng-click="imageshidden=!imageshidden; getImages();"></div>
 
 </div>
