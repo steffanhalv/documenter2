@@ -18,7 +18,9 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui.tinymce'
+    'ui.tinymce',
+    'ui.sortable',
+    'angularFileUpload'
   ])
   .config(function ($routeProvider) {
     $routeProvider

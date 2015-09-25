@@ -36,6 +36,9 @@ module.exports = function(config) {
       'bower_components/tinymce/tinymce.min.js',
       'bower_components/tinymce-dist/tinymce.min.js',
       'bower_components/angular-ui-tinymce/src/tinymce.js',
+      'bower_components/jquery-ui/jquery-ui.js',
+      'bower_components/angular-ui-sortable/sortable.js',
+      'bower_components/angular-file-upload/dist/angular-file-upload.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

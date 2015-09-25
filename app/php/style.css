@@ -1,71 +1,235 @@
 body {
-    width: 100%;
-    height: 100%;
     margin: 0;
-    padding: 0;
     font-family: arial, sans-serif;
+    background-color: #f0f0f0;
 }
 
-.navigation {
-    position: relative;
-    float: left;
-    width: 25%;
-    min-height: 10em;
-    z-index: 1;
+header {
+    height: 300px;
+    background-color: #84c0ed;
+    text-align: center;
 }
 
-.navigation > ul {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 25%;
-    padding: 0;
-    overflow: auto;
-    border-right: .1em solid #d7d7d7;
+.logo {
+    display: inline-block;
+    margin: 3.5em auto 0;
+    width: 300px;
+    height: 100px;
+    background-image: url('images/yourlogo.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.navigation ul li a {
-    display: inline-flex;
+.main-title {
+    display: inline-block;
+    margin: .5em auto 0;
     width: 100%;
-    text-decoration: none;
+    text-align: center;
+    font-size: 3em;
+    color: white;
 }
 
-.navigation ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.wrapper {
+    width: 1000px;
+    margin: 2em auto;
 }
 
-.navigation ul ul li span {
-    background-color: #FFFFFF;
-    font-size: .9em;
-    padding: .8em 1em;
-    border-bottom: 0.1em solid #F6F6F6;
-    width: 100%;
+.section h1 {
     font-weight: normal;
-}
-
-.navigation li span {
-    background-color: #EFEFEF;
-    color: #5B5B5B;
-    padding: .8em .5em;
-    width: 100%;
-    font-weight: bold;
+    font-size: 1.5em;
 }
 
 .content {
-    position: absolute;
-    right: 0;
-    width: 75%;
-    background-color: #DADADA;
+    background-color: white;
+    padding: 1em;
+    box-shadow: .1em .1em .3em .1em #d0d0d0;
+    margin-bottom: 2.5em;
 }
 
-.content > h1 {
-    padding: 0 1em;
+.nav-large a, .nav-mobile a {
+    text-decoration: none;
+    color: white;
 }
 
-.content > div {
-    padding: .5em 2em;
-    background-color: #E6E6E6;
-    border-bottom: .1em solid #C3C3C3;
+.nav-large {
+    width: 23%;
+    float: left;
+    margin-right: 2%;
+}
+
+.nav-large.fixed {
+    position: fixed;
+    top: 2em;
+    bottom: 2em;
+    overflow: auto;
+    width: 230px;
+}
+
+.nav-large ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-large ul span {
+    display: block;
+    padding: 1.2em 1.7em;
+    color: white;
+    background-color: #585858;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.nav-large > ul > li {
+    border-bottom: 1px solid gray;
+}
+
+.nav-large ul span:hover {
+    background-color: #343434 !important;
+}
+
+.nav-large ul li.active span:hover {
+    background-color: #222222!important;
+}
+
+.nav-large ul li.active a > span {
+    background-color: #3c3c3c;
+    border-left: 5px solid #84c0ed;
+}
+
+.nav-large ul li ul span {
+    background-color: #4e4e4e;
+}
+
+.nav-large ul li.active ul span {
+    background-color: #333333;
+    border-left: 2px solid #84c0ed;
+}
+
+.nav-large ul ul span {
+    padding: .5em 3.3em;
+}
+
+/**/
+
+@keyframes toggleout {
+    from {left: 0;}
+    to {left: -100%;}
+}
+
+.nav-mobile {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    bottom: 0;
+    width: 100%;
+    overflow: auto;
+    z-index: 1;
+}
+
+.nav-mobile ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-mobile ul span {
+    display: block;
+    padding: 1.2em 1.7em;
+    color: white;
+    background-color: #585858;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.nav-mobile > ul > li {
+    border-bottom: 1px solid gray;
+}
+
+.nav-mobile ul span:hover {
+    background-color: #343434 !important;
+}
+
+.nav-mobile ul li.active span:hover {
+    background-color: #222222!important;
+}
+
+.nav-mobile ul li.active a > span {
+    background-color: #3c3c3c;
+    border-left: 8px solid #84c0ed;
+}
+
+.nav-mobile ul li ul span {
+    background-color: #4e4e4e;
+}
+
+.nav-mobile ul li.active ul span {
+    background-color: #333333;
+    border-left: 4px solid #84c0ed;
+}
+
+.nav-mobile ul ul span {
+    padding: .5em 3.3em;
+}
+
+.container {
+    width: 73%;
+    margin-left: 2%;
+    float: left;
+}
+
+.container.right {
+    float: right;
+}
+
+@media screen and (max-width: 1050px) {
+    .wrapper {
+        width: 98%;
+    }
+    .nav-large.fixed {
+        width: 23%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .toggle {
+        position: fixed;
+        background-image: url('images/toggle.png');
+        width: 40px;
+        height: 40px;
+        background-size: contain;
+        top: .7em;
+        right: .7em;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    @keyframes togglein {
+        from {left: -100%;}
+        to {left: 0;}
+    }
+
+    .nav-mobile.active {
+        left: 0;
+        animation-name: togglein;
+        animation-duration: .5s;
+    }
+
+    .nav-mobile {
+        animation-name: toggleout;
+        animation-duration: .5s;
+    }
+
+    .nav-large {
+        display: none;
+    }
+    .container {
+        width: 100%;
+        margin: 0;
+    }
 }

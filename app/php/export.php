@@ -8,28 +8,29 @@ header('Content-Type: text/html; charset=utf-8');
 
 $json = json_decode(file_get_contents("php://input"), true);
 
-$header = fopen("header.html", "r");
-// Output one line until end-of-file
-$headers = '';
-while(!feof($header)) {
-    $headers = $headers.fgets($header);
-}
-fclose($header);
-
-$footer = fopen("footer.html", "r");
-// Output one line until end-of-file
-$footers = '';
-while(!feof($footer)) {
-    $footers = $footers.fgets($footer);
-}
-fclose($footer);
-
 $files = array();
-$mainfiles = array();
 
+//GET HEADER
+$header = '';
+$header_file = fopen("header.html", "r");
+while(!feof($header_file)) {
+    $header = $header.fgets($header_file);
+}
+fclose($header_file);
+
+//GET FOOTER
+$footer = '';
+$footer_file = fopen("footer.html", "r");
+while(!feof($footer_file)) {
+    $footer = $footer.fgets($footer_file);
+}
+fclose($footer_file);
+
+//LOOP THROUGH ALL PAGES
 $cnt = 0;
 foreach ($json['pages'] as $page){
 
+    //NAME FIRST FILE AS index.html and others with real name
     if ($cnt==0) {
         $filename = "index.html";
     } else {
@@ -39,10 +40,13 @@ foreach ($json['pages'] as $page){
     
     $myfile = fopen($filename, "w");
 
-    $newContent = $headers;
+    //ADD HEADER
+    $c = $header; //$c = content
 
+    //ADD CONTENT
     $cntt = 0;
-    $newContent = $newContent . "<div class='navigation'><ul>";
+    $c = $c . "<div class='main-title'>".$json['model']['headerTitle']."<div></header>";
+    $c = $c . "<div class='nav-mobile'><ul>";
     foreach ($json['pages'] as $page_) {
 
         if ($cntt==0) {
@@ -52,51 +56,93 @@ foreach ($json['pages'] as $page){
         }
         $cntt++;
 
-        $newContent = $newContent . "<li><a href='" . $filename_ . "'><span>";
-        $newContent = $newContent . $page_['title'];
-        $newContent = $newContent . "</span></a><ul>";
+        $active = "";
+        if ($page == $page_) {
+            $active = "active";
+        }
+
+        $c = $c . "<li class='".$active."'><a href='" . $filename_ . "' title='".$page_['title']."'><span>";
+        $c = $c . $page_['title'];
+        $c = $c . "</span></a><ul>";
         foreach ($page_['sections'] as $section) {
 
-            $newContent = $newContent . "<li><a href='" . $filename_ . "#" . $section['id'] . "'><span>";
-            $newContent = $newContent . $section['title'];
-            $newContent = $newContent . "</span></a></li>";
+            $c = $c . "<li><a href='" . $filename_ . "#" . $section['id'] . "' title='".$section['title']."'><span>";
+            $c = $c . $section['title'];
+            $c = $c . "</span></a></li>";
 
         }
-        $newContent = $newContent . "</ul></li>";
+        $c = $c . "</ul></li>";
     }
-    $newContent = $newContent . "</ul></div>";
+    $c = $c . "</ul></div>";
 
-    $newContent = $newContent . "<div class='content'><h1>".$page_['title']."</h1>";
+    $cntt = 0;
+    $c = $c . "<div class='wrapper'>";
+    $c = $c . "<div class='nav-large'><ul>";
+    foreach ($json['pages'] as $page_) {
+
+        if ($cntt==0) {
+            $filename_ = "index.html";
+        } else {
+            $filename_ = $page_['title'].".html";
+        }
+        $cntt++;
+
+        $active = "";
+        if ($page == $page_) {
+            $active = "active";
+        }
+
+        $c = $c . "<li class='".$active."'><a href='" . $filename_ . "' title='".$page_['title']."'><span>";
+        $c = $c . $page_['title'];
+        $c = $c . "</span></a><ul>";
+        foreach ($page_['sections'] as $section) {
+
+            $c = $c . "<li><a href='" . $filename_ . "#" . $section['id'] . "' title='".$section['title']."'><span>";
+            $c = $c . $section['title'];
+            $c = $c . "</span></a></li>";
+
+        }
+        $c = $c . "</ul></li>";
+    }
+    $c = $c . "</ul></div>";
+
+    $c = $c . "<div class='container'><h1>".$page_['title']."</h1>";
 
     foreach ($page['sections'] as $section) {
 
-        $newContent = $newContent . "<div id='".$section['id']."'>";
+        $c = $c . "<div class='section' id='".$section['id']."'>";
 
-        $newContent = $newContent . "<h2>";
-        $newContent = $newContent . $section['title'];
-        $newContent = $newContent . "</h2>";
+        $c = $c . "<h1>";
+        $c = $c . $section['title'];
+        $c = $c . "</h1><div class='content'>";
 
-        $newContent = $newContent . str_replace($_SESSION["img_path"], 'images', $section['model']);
+        $c = $c . str_replace($_SESSION["img_path"], 'images', $section['model']);
 
-        $newContent = $newContent . "</div>";
+        $c = $c . "</div></div>";
 
 
     }
-    $newContent = $newContent . "</div>";
+    $c = $c . "</div></div>";
 
-    $newContent = $newContent.$footers;
+    //REPLACE LOGO
+    $c = $c . "<script>$(document).ready(function() {";
+    $logoName = basename($json['model']['logoPath']);
+    $c = $c . "$('.logo').css('backgroundImage','url(images/".$logoName.")');";
+    $c = $c . "});</script>";
 
-    fwrite($myfile, $newContent);
+    //ADD FOOTER
+    $c = $c.$footer;
+
+    fwrite($myfile, $c);
     fclose($myfile);
     array_push($files, $filename);
 
 };
 
-array_push($mainfiles, "style.css");
-array_push($mainfiles, "main.js");
-
+//CREATE ZIP FILE
 $zip = new ZipArchive();
-$zip_name = 'zip/'.$json['user']['permissionId'].".zip";
+mkdir('zip/'.$json['user']['permissionId']);
+$zip_name = 'zip/'.$json['user']['permissionId']."/website.zip";
 if (file_exists ( $zip_name )) {
     unlink($zip_name);
 }
@@ -107,11 +153,14 @@ if($zip->open($zip_name, ZIPARCHIVE::CREATE)!==TRUE){
 foreach($files as $file){
     $zip->addFile($file);
 }
-foreach($mainfiles as $file){
-    $zip->addFile($file);
-}
 
-$zip->addEmptyDir('images');
+$zip->addFile('style.css');
+$zip->addFile('js/main.js');
+$zip->addFile('js/jquery-1.11.3.min.js');
+
+$zip->addFile('images/logo.png');
+$zip->addFile('images/toggle.png');
+
 foreach(scandir($_SESSION["upload_path"]) as $image) {
     if ($image!=='.'&&$image!=='..') {
         $zip->addFile($_SESSION["upload_path"].'/'.$image, 'images/'.$image);
@@ -126,6 +175,7 @@ foreach($files as $file){
     }
 }
 
+//RETURN NAME OF ZIP FILE
 echo $zip_name;
 
 ?>

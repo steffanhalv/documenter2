@@ -1,6 +1,19 @@
 'use strict';
 angular.module('documenter2App')
-  .controller('EditCtrl', function ($rootScope, $routeParams, $scope, $location, $timeout, gapi) {
+  .controller('EditCtrl', function ($rootScope, $routeParams, $scope, $location, $timeout, gapi, FileUploader) {
+
+        $scope.uploader = new FileUploader({
+          url: 'upload.php'
+        });
+
+        $scope.uploader.onAfterAddingFile = function(fileItem) {
+          fileItem.upload();
+        };
+
+        $scope.uploader.onCompleteItem = function(fileItem, response, status, headers) {
+          $scope.model.logoPath = 'http://docswriter.com/images/users/'+$scope.user.rootFolderId+'/'+$scope.fileId+'/'+fileItem._file.name;
+          $('.logo').css('backgroundImage','url('+$scope.model.logoPath+')');
+        };
 
         $scope.project = {
             userPermission: {
@@ -21,9 +34,15 @@ angular.module('documenter2App')
             inline: true,
             plugins : 'advlist jbimages autolink link image lists charmap print preview textcolor code',
             menubar : false,
-            toolbar: ["undo redo | styleselect fontsizeselect | bold italic underline | forecolor backcolor | link image jbimages | numlist bullist"],
+            toolbar: ["bold italic underline | link image jbimages | forecolor backcolor ",
+                      "styleselect fontsizeselect | numlist bullist | undo redo"],
             skin: 'lightgray',
             theme : 'modern'
+        };
+
+        $scope.sortableOptions = {
+          axis: 'y',
+          handle: '.draw'
         };
 
         $scope.saveToDrive = function() {
@@ -62,6 +81,7 @@ angular.module('documenter2App')
                 gapi.getFile(fileId, function(resp) {
 
                     $scope.project = resp;
+                    $scope.fileId = fileId;
 
                     gapi.downloadFile(resp.downloadUrl, function(resp) {
                         resp = resp.replace(/<div class=\\"mce-resizehandle\\">&#160;<br\/><\/div>/g,'');
@@ -75,6 +95,10 @@ angular.module('documenter2App')
                             }
                             $scope.currentPage = $scope.model.pages[0];
                             $scope.currentSection = $scope.currentPage.sections[0];
+
+                            if (typeof $scope.model.logoPath!=='undefined') {
+                              $('.logo').css('backgroundImage','url('+$scope.model.logoPath+')');
+                            }
 
                             $timeout(function(){
                               $('.save').css({
@@ -142,7 +166,7 @@ angular.module('documenter2App')
 
         $scope.export = function() {
             $.ajax({
-                type: 'POST',
+                type: 'POST', //http://documenter.com/app/php/export.php - http://docswriter.com/php/export.php
                 url: 'http://docswriter.com/php/export.php',
                 data: angular.toJson({
                     pages: $scope.model.pages,
@@ -273,5 +297,25 @@ angular.module('documenter2App')
             backgroundColor: 'red'
           });
         }, true);
+
+    //Export functions:
+
+    $('.toggle').click(function() {
+      $('.nav-mobile').toggleClass('active');
+    });
+
+    $(window).scroll(function() {
+      var windscroll = $(window).scrollTop();
+      if (windscroll >= 300 && $('.container').height()>$('.nav-large').height()) {
+        $('.nav-large').addClass('fixed');
+        $('.container').addClass('right');
+      } else {
+
+        $('.nav-large').removeClass('fixed');
+        $('.container').removeClass('right');
+
+      }
+
+    }).scroll();
 
   });
