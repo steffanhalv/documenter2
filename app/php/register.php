@@ -8,7 +8,7 @@ $json = json_decode(file_get_contents("php://input"), true);
 
 $_SESSION["folder"] = $json['user']['rootFolderId'];
 $_SESSION["project"] = $json['fileId'];
-$_SESSION["img_path"] = '/images/users/'.$_SESSION["folder"].'/'.$_SESSION["project"];
+$_SESSION["img_path"] = '/images/projects/'.$_SESSION["project"];
 $_SESSION["upload_path"] = $_SERVER['DOCUMENT_ROOT'] . $_SESSION["img_path"];
 
 echo $_SESSION["folder"];

@@ -1,14 +1,101 @@
-<div class="container-fluid">
+<div class="toggle" ng-click="toggleMenu()"></div>
 
-  <div class="row">
-    <div class="col-md-12 text-center">
-      <br><br>
-      Welcome to docswriter, please login to access your documents
-      <br><br>
-      <button ng-click="login()" class="btn btn-danger">
-        Login using google
-      </button>
+<header>
+  <div class="main-title">
+    <h1 style="margin-top: 2em;">Welcome to docswriter</h1>
+  </div>
+  <button ng-hide="loggedin" ng-click="login()" class="btn btn-danger" style="margin: 1em auto;">
+    Login using google
+  </button>
+</header>
+
+<div class="nav-mobile">
+  <ul>
+    <li class="active">
+      <span title="Home" style="position: relative;">
+        Home
+      </span>
+      <ul>
+        <li>
+          <span ng-click="scrollToPath('/login', '#welcome')" title="Welcome" style="position: relative;">
+            Welcome to docswriter
+          </span>
+        </li>
+        <li>
+          <span ng-click="scrollToPath('/login', '#suport')" title="Suport" style="position: relative;">
+            Suport
+          </span>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <span ng-click="goto('/dashboard')" title="Dashboard" style="position: relative;">
+        Dashboard
+      </span>
+    </li>
+  </ul>
+</div>
+
+<div class="wrapper">
+
+  <div class="nav-large">
+    <ul>
+      <li class="active">
+        <span title="Home" style="position: relative;">
+          Home
+        </span>
+        <ul>
+          <li>
+          <span ng-click="scrollToPath('/login', '#welcome')" title="Welcome to docswriter" style="position: relative;">
+            Welcome to docswriter
+          </span>
+          </li>
+          <li>
+          <span ng-click="scrollToPath('/login', '#suport')" title="Suport" style="position: relative;">
+            Suport
+          </span>
+          </li>
+        </ul>
+      </li>
+      <li>
+      <span ng-click="goto('/dashboard')" title="Dashboard" style="position: relative;">
+        Dashboard
+      </span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="container">
+
+    <h1>Home</h1>
+
+    <div class="section" id="welcome">
+      <h1>Welcome to docswriter</h1>
+      <div class="content">
+        <p>
+          Docswriter is a software to easily write and share documentation,
+          with possibility to export documentation as a complete website.
+        </p>
+        <p>
+          The main target is documentation for wordpress themes located at
+          <a href="http://themeforest.com">themeforest.com</a> and similar projects.
+        </p>
+      </div>
     </div>
+
+    <div class="section" id="suport">
+      <h1>Suport</h1>
+      <div class="content">
+        <p>
+          We need help to make this documentation software better.
+        </p>
+        <p>
+          Please take time to post questions and/or suggestions to
+          <a href="mailto:helpdesk@docswriter.com">helpdesk@docswriter.com</a>
+        </p>
+      </div>
+    </div>
+
   </div>
 
 </div>

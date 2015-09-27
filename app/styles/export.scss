@@ -47,6 +47,10 @@ header {
   margin-bottom: 2.5em;
 }
 
+.content img {
+  max-width: 100%;
+}
+
 .nav-large a, .nav-mobile a {
   text-decoration: none;
   color: white;
@@ -84,7 +88,7 @@ header {
 }
 
 .nav-large > ul > li {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #696767;
 }
 
 .nav-large ul span:hover {
@@ -95,7 +99,8 @@ header {
   background-color: #222222!important;
 }
 
-.nav-large ul li.active a > span {
+.nav-large ul li.active a > span,
+.nav-large ul li.active > span{
   background-color: #3c3c3c;
   border-left: 5px solid #84c0ed;
 }
@@ -148,7 +153,7 @@ header {
 }
 
 .nav-mobile > ul > li {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #696767;
 }
 
 .nav-mobile ul span:hover {
@@ -159,7 +164,8 @@ header {
   background-color: #222222!important;
 }
 
-.nav-mobile ul li.active a > span {
+.nav-mobile ul li.active a > span,
+.nav-mobile ul li.active > span{
   background-color: #3c3c3c;
   border-left: 8px solid #84c0ed;
 }

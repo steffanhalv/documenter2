@@ -11,7 +11,7 @@ angular.module('documenter2App')
         };
 
         $scope.uploader.onCompleteItem = function(fileItem, response, status, headers) {
-          $scope.model.logoPath = 'http://docswriter.com/images/users/'+$scope.user.rootFolderId+'/'+$scope.fileId+'/'+fileItem._file.name;
+          $scope.model.logoPath = 'http://docswriter.com/images/projects/'+$scope.fileId+'/'+fileItem._file.name;
           $('.logo').css('backgroundImage','url('+$scope.model.logoPath+')');
         };
 
@@ -297,25 +297,5 @@ angular.module('documenter2App')
             backgroundColor: 'red'
           });
         }, true);
-
-    //Export functions:
-
-    $('.toggle').click(function() {
-      $('.nav-mobile').toggleClass('active');
-    });
-
-    $(window).scroll(function() {
-      var windscroll = $(window).scrollTop();
-      if (windscroll >= 300 && $('.container').height()>$('.nav-large').height()) {
-        $('.nav-large').addClass('fixed');
-        $('.container').addClass('right');
-      } else {
-
-        $('.nav-large').removeClass('fixed');
-        $('.container').removeClass('right');
-
-      }
-
-    }).scroll();
 
   });

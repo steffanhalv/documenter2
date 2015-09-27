@@ -47,6 +47,10 @@ header {
     margin-bottom: 2.5em;
 }
 
+.content img {
+    max-width: 100%;
+}
+
 .nav-large a, .nav-mobile a {
     text-decoration: none;
     color: white;
@@ -84,7 +88,7 @@ header {
 }
 
 .nav-large > ul > li {
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #696767;
 }
 
 .nav-large ul span:hover {
@@ -148,7 +152,7 @@ header {
 }
 
 .nav-mobile > ul > li {
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #696767;
 }
 
 .nav-mobile ul span:hover {

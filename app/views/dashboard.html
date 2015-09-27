@@ -1,9 +1,75 @@
+<div class="toggle" ng-click="toggleMenu()"></div>
+
+<header>
+  <div class="main-title">
+    <h1 style="margin-top: 2em;">Welcome to docswriter</h1>
+  </div>
+  <button ng-hide="loggedin" ng-click="login()" class="btn btn-danger" style="margin: 1em auto;">
+    Login using google
+  </button>
+</header>
+
+<div class="nav-mobile">
+  <ul>
+    <li>
+      <span ng-click="goto('/login')" title="Home" style="position: relative;">
+        Home
+      </span>
+      <ul>
+        <li>
+          <span ng-click="scrollToPath('/login', '#welcome')" title="Welcome" style="position: relative;">
+            Welcome to docswriter
+          </span>
+        </li>
+        <li>
+          <span ng-click="scrollToPath('/login', '#suport')" title="Suport" style="position: relative;">
+            Suport
+          </span>
+        </li>
+      </ul>
+    </li>
+    <li class="active">
+      <span ng-click="goto('/dashboard')" title="Dashboard" style="position: relative;">
+        Dashboard
+      </span>
+    </li>
+  </ul>
+</div>
+
 <div class="wrapper">
 
+  <div class="nav-large">
+    <ul>
+      <li>
+        <span ng-click="goto('/login')" title="Home" style="position: relative;">
+          Home
+        </span>
+        <ul>
+          <li>
+          <span ng-click="scrollToPath('/login', '#welcome')" title="Welcome to docswriter" style="position: relative;">
+            Welcome to docswriter
+          </span>
+          </li>
+          <li>
+          <span ng-click="scrollToPath('/login', '#suport')" title="Suport" style="position: relative;">
+            Suport
+          </span>
+          </li>
+        </ul>
+      </li>
+      <li class="active">
+      <span ng-click="goto('/dashboard')" title="Dashboard" style="position: relative;">
+        Dashboard
+      </span>
+      </li>
+    </ul>
+  </div>
+
   <div class="container">
+
     <h2>Documents</h2>
     <table style="width: 100%; font-size: 1.2em;">
-      <tr>
+      <tr ng-show="loggedin">
         <td style="padding: .5em" ng-click="new()">
            <span class="glyphicon glyphicon-plus"></span>
            <span><b>New project</b></span>

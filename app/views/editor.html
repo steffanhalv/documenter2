@@ -7,10 +7,10 @@
       <span class="glyphicon glyphicon-share"></span> Share
     </button>
     <button class="save" ng-click="saveToDrive();" ng-hide="saving">
-      <span class="glyphicon glyphicon-save-file draw"></span> Save
+      <span class="glyphicon glyphicon-save-file"></span> Save
     </button>
     <button ng-show="saving">
-      <span class="glyphicon glyphicon-save-file draw"></span> Saving...
+      <span class="glyphicon glyphicon-save-file"></span> Saving...
     </button>
     <button ng-click="export();">
       <span class="glyphicon glyphicon-download"></span> Export website
@@ -21,32 +21,29 @@
   </div>
 </div>
 
-<div class="toggle"></div>
+<div class="toggle" ng-click="toggleMenu()"></div>
 
-<div class="header">
-
-  <header>
-    <div class="logo">
-      <input type="file" nv-file-select uploader="uploader"/><br/>
-    </div>
-    <div class="main-title">
-      <input type="text" ng-model="model.headerTitle" placeholder="Header Title">
-    </div>
-  </header>
-</div>
+<header>
+  <div class="logo">
+    <input type="file" nv-file-select uploader="uploader"/><br/>
+  </div>
+  <div class="main-title">
+    <input type="text" ng-model="model.headerTitle" placeholder="Header Title">
+  </div>
+</header>
 
 <div class="nav-mobile">
   <ul ui-sortable="sortableOptions" ng-model="model.pages">
     <li ng-repeat="page in model.pages" ng-click="switchPage(page, $index);">
         <span title="{{page.title}}" style="position: relative;">
-          <span class="glyphicon glyphicon-th draw"></span>
+          <span class="glyphicon glyphicon-sort draw"></span>
           {{page.title}}
           <span class="glyphicon glyphicon-trash trash1" ng-click="removePage($index);"></span>
         </span>
       <ul ui-sortable="sortableOptions" ng-model="page.sections">
         <li ng-repeat="section in page.sections">
-            <span ng-click="scrollToDiv(page, '#'+section.id)"  title="{{section.title}}" style="position: relative;">
-              <span class="glyphicon glyphicon-th draw"></span>
+            <span ng-click="scrollToDiv(page, '#'+section.id)" title="{{section.title}}" style="position: relative;">
+              <span class="glyphicon glyphicon-sort draw"></span>
               {{section.title}}
               <span class="glyphicon glyphicon-trash trash2" ng-click="removeSection(page, $index);"></span>
             </span>
@@ -74,14 +71,14 @@
     <ul ui-sortable="sortableOptions" ng-model="model.pages">
       <li ng-repeat="page in model.pages" ng-click="switchPage(page, $index);">
         <span title="{{page.title}}" style="position: relative;">
-          <span class="glyphicon glyphicon-th draw"></span>
+          <span class="glyphicon glyphicon-sort draw"></span>
           {{page.title}}
           <span class="glyphicon glyphicon-trash trash1" ng-click="removePage($index);"></span>
         </span>
         <ul ui-sortable="sortableOptions" ng-model="page.sections">
           <li ng-repeat="section in page.sections">
             <span ng-click="scrollToDiv(page, '#'+section.id)"  title="{{section.title}}" style="position: relative;">
-              <span class="glyphicon glyphicon-th draw"></span>
+              <span class="glyphicon glyphicon-sort draw"></span>
               {{section.title}}
               <span class="glyphicon glyphicon-trash trash2" ng-click="removeSection(page, $index);"></span>
             </span>

@@ -94,7 +94,7 @@ angular.module('documenter2App')
         'method': 'GET',
         'params': {
           'maxResults': '200',
-          'q': "trashed = false and mimeType = 'application/documenter.docs'"
+          'q': "'me' in owners and trashed = false and mimeType = 'application/documenter.docs'"
         }
       });
 
